@@ -14,8 +14,11 @@ https://c.y.qq.com/soso/fcgi-bin/client_search_cp?t=7&p=1&n=10&w=%E6%B2%B3%E5%9B
 ## 依赖
 基于python3 和 第三方包 `wordcloud`
 ```
-#安装 wordcloud
+# 安装 wordcloud
 $ pip install wordcloud
+
+# 安装 jieba 分词
+$ pip install jieba
 ```
 ## 用法
 ```
