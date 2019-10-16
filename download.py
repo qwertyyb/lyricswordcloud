@@ -3,6 +3,7 @@
 下载所有的歌词
 接口： https://c.y.qq.com/soso/fcgi-bin/client_search_cp?t=7&p=1&n=10&w=%E6%B2%B3%E5%9B%BE&format=jsonp
 p: page
+w: 关键词
 '''
 
 from urllib.request import urlopen
@@ -42,7 +43,7 @@ class Download:
             if len(list(singers))<1 or lrc['songname'] in self.titles:
                 continue
             content = lrc['content']
-            content = content.replace('\\n', '\n')
+            content = content.replace('\\n', '\n').replace('<em>', '').replace('</em>', '')
             self.titles.add(lrc['songname'])
             with open(self.filePath + lrc['songname']+'.txt', 'w', encoding='utf-8') as f:
                 f.write(content)
@@ -54,7 +55,6 @@ class Download:
             self.handlePage(res)
             print('第%s页爬取完毕' % page)
         print('全部爬取完毕，共爬取%s条歌词信息' % len(self.titles))
-    
 
 
 

@@ -4,11 +4,12 @@ import os
 import jieba
 from wordcloud import WordCloud, ImageColorGenerator
 import matplotlib.pyplot as plt
-from scipy.misc import imread
+from matplotlib.image import imread
 import sys
 
 class Analyse:
   def __init__(self, keyword):
+    self.keyword = keyword
     path = os.path.join('lyrics', keyword)
     if not os.path.exists(path):
       print('未找到可分析的文件目录，请先抓取')
@@ -25,12 +26,11 @@ class Analyse:
     files = list(self.files)
     for file in files:
       with open(file, 'r', encoding='utf-8') as f:
-        # 过滤前三行，标题，词，曲
-        for i in range(3):
-          f.readline()
+        f.readline()
+        ignoreline = ('词: ', '曲: ', '编由: ')
         while True:
           line = f.readline()
-          if not line:
+          if not line or line.startswith(ignoreline):
             break
           self.handleLine(line)
     print('分析了%s个歌词文件' % len(files))
@@ -43,14 +43,14 @@ class Analyse:
     # 切词
     words = jieba.cut(line)
     for word in words:
-      if len(word)<=1:
+      if len(word)<=1 or word == self.keyword:
         continue
       if word in self.data:
         self.data[word] = self.data[word]+1
       else:
         self.data[word] = 1
   
-  def showData(self):
+  def showData(self, auto_close = False):
     print('请稍等,正在绘图···')
     mask = imread(self.picfile)
     imgcolor = ImageColorGenerator(mask)
@@ -65,13 +65,19 @@ class Analyse:
     plt.imshow(wc)
     plt.axis('off')
     print('绘图完成！')
-    plt.show()
+    if not auto_close:
+      plt.show()
+    else:
+      plt.show(block=False)
+      plt.pause(3)
+      plt.close()
 
 if __name__ == '__main__':
-    if len(sys.argv)==2:
+    is_test = len(sys.argv) == 3 and sys.argv[2] == '--test'
+    if len(sys.argv) >= 2:
       singer = sys.argv[1]
       a = Analyse(singer)
       a.readfiles()
-      a.showData()
+      a.showData(is_test)
     else:
       print('请指定歌手姓名')
