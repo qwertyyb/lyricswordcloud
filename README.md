@@ -1,4 +1,5 @@
-# 歌手歌词词云
+# 歌手歌词词云
+![test](https://github.com/qwertyyb/lyricswordcloud/workflows/test/badge.svg)
 
 ## 运行效果
 ![运行截图](https://puui.qpic.cn/vupload/0/1571202906332_p94wkus4c7j.png/0)
