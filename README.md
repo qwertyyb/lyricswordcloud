@@ -17,7 +17,7 @@ $ python download.py 许嵩 && python analyse.py 许嵩
 ```
 
 ## 依赖
-基于python3
+python(>=3.6)
 ```
 pip install -r requirements.txt
 ```
